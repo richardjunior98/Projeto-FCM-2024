@@ -1,6 +1,11 @@
 library(tidyverse)
+library(rcartocolor)
+library(gt)
 
-dados <- read_csv("C:/Users/richa/Desktop/Doutorado/Disciplinas/2º semestre/Ferramentas Computacionais/PROJETO/all_players.csv")
+# Definir cores
+#cores <- rcartocolor::carto_pal(12, "Bold")
+
+dados <- read_csv("C:/Users/richa/Desktop/Doutorado/Disciplinas/2º semestre/Ferramentas Computacionais/Projeto_FCM_2024/all_players.csv")
 
 # Usando a função base para renomear de novo
 colnames(dados)[colnames(dados) == "Unnamed: 0"] <- "Ranking_by_sex"
