@@ -238,3 +238,120 @@ p8 <- ggplot(df2, aes(x = "", y = DEF, fill = League)) +
 p8
 
 ggsave("C:/Users/richa/Desktop/Doutorado/Disciplinas/2º semestre/Ferramentas Computacionais/Projeto_FCM_2024/Imagens/ligas_phy.png", plot = p8, device = "png", height = 6, width = 10)
+
+df3 <- dados %>%
+  select(sex,Name,Position,League,`GK Diving`, `GK Handling`,`GK Kicking`,`GK Positioning`,`GK Reflexes`)
+
+df3 <- filter(df3, sex == "MALE", Position == "GK", League %in% c("Premier League","Serie A Enilive","Bundesliga",
+"LALIGA EA SPORTS","Ligue 1 McDonald's","Liga Portugal","1A Pro League",
+"MLS","EFL Championship","Primera División"))
+
+# Gráfico de dispersão
+p9 <- ggplot(df3, aes(x = "", y = `GK Diving`, fill = League)) +
+  geom_boxplot(outlier.colour = "black", outlier.shape = 16, outlier.size = 1.5, width = 1.1) +  # Aumenta a largura dos boxplots
+  labs(title = "Distribuição do Mergulho dos Goleiros por Liga",
+       x = "",  # Rótulo do eixo x
+       y = "Mergulho dos Goleiros (GK Diving)",  # Rótulo do eixo y
+       fill = "Ligas") +
+  theme_minimal() +  # Tema minimalista
+  theme(
+    legend.position = "right",  # Coloca a legenda à direita
+    plot.title = element_text(size = 14, face = "bold", hjust = 0.5),  # Ajusta título
+    legend.title = element_text(size = 11.3, face = "bold"),  # Título da legenda
+    legend.text = element_text(size = 10),  # Tamanho da fonte da legenda
+    axis.title.x = element_text(size = 11, face = "bold"),  # Título do eixo x em negrito
+    axis.title.y = element_text(size = 11.3, face = "bold")   # Título do eixo y em negrito
+  ) +
+  scale_fill_manual(values = cores_ligas)+
+    ylim(40, 100)  # Define os limites do eixo y de 0 a 100
+p9
+
+ggsave("C:/Users/richa/Desktop/Doutorado/Disciplinas/2º semestre/Ferramentas Computacionais/Projeto_FCM_2024/Imagens/ligas_gk_div.png", plot = p9, device = "png", height = 6, width = 10)
+
+# Gráfico de dispersão
+p10 <- ggplot(df3, aes(x = "", y = `GK Handling`, fill = League)) +
+  geom_boxplot(outlier.colour = "black", outlier.shape = 16, outlier.size = 1.5, width = 1.1) +  # Aumenta a largura dos boxplots
+  labs(title = "Distribuição do Manuseio dos Goleiros por Liga",
+       x = "",  # Rótulo do eixo x
+       y = "Manuseio dos Goleiros (GK Handling)",  # Rótulo do eixo y
+       fill = "Ligas") +
+  theme_minimal() +  # Tema minimalista
+  theme(
+    legend.position = "right",  # Coloca a legenda à direita
+    plot.title = element_text(size = 14, face = "bold", hjust = 0.5),  # Ajusta título
+    legend.title = element_text(size = 11.3, face = "bold"),  # Título da legenda
+    legend.text = element_text(size = 10),  # Tamanho da fonte da legenda
+    axis.title.x = element_text(size = 11, face = "bold"),  # Título do eixo x em negrito
+    axis.title.y = element_text(size = 11.3, face = "bold")   # Título do eixo y em negrito
+  ) +
+  scale_fill_manual(values = cores_ligas)+
+    ylim(40, 100)  # Define os limites do eixo y de 0 a 100
+p10
+
+ggsave("C:/Users/richa/Desktop/Doutorado/Disciplinas/2º semestre/Ferramentas Computacionais/Projeto_FCM_2024/Imagens/ligas_gk_hand.png", plot = p10, device = "png", height = 6, width = 10)
+
+# Gráfico de dispersão
+p11 <- ggplot(df3, aes(x = "", y = `GK Kicking`, fill = League)) +
+  geom_boxplot(outlier.colour = "black", outlier.shape = 16, outlier.size = 1.5, width = 1.1) +  # Aumenta a largura dos boxplots
+  labs(title = "Distribuição do Chute dos Goleiros por Liga",
+       x = "",  # Rótulo do eixo x
+       y = "Chute dos Goleiros (GK Kicking)",  # Rótulo do eixo y
+       fill = "Ligas") +
+  theme_minimal() +  # Tema minimalista
+  theme(
+    legend.position = "right",  # Coloca a legenda à direita
+    plot.title = element_text(size = 14, face = "bold", hjust = 0.5),  # Ajusta título
+    legend.title = element_text(size = 11.3, face = "bold"),  # Título da legenda
+    legend.text = element_text(size = 10),  # Tamanho da fonte da legenda
+    axis.title.x = element_text(size = 11, face = "bold"),  # Título do eixo x em negrito
+    axis.title.y = element_text(size = 11.3, face = "bold")   # Título do eixo y em negrito
+  ) +
+  scale_fill_manual(values = cores_ligas)+
+    ylim(40, 100)  # Define os limites do eixo y de 0 a 100
+p11
+
+ggsave("C:/Users/richa/Desktop/Doutorado/Disciplinas/2º semestre/Ferramentas Computacionais/Projeto_FCM_2024/Imagens/ligas_gk_kick.png", plot = p11, device = "png", height = 6, width = 10)
+
+# Gráfico de dispersão
+p12 <- ggplot(df3, aes(x = "", y = `GK Positioning`, fill = League)) +
+  geom_boxplot(outlier.colour = "black", outlier.shape = 16, outlier.size = 1.5, width = 1.1) +  # Aumenta a largura dos boxplots
+  labs(title = "Distribuição do Posicionamento dos Goleiros por Liga",
+       x = "",  # Rótulo do eixo x
+       y = "Posicionamento dos Goleiros (GK Positioning)",  # Rótulo do eixo y
+       fill = "Ligas") +
+  theme_minimal() +  # Tema minimalista
+  theme(
+    legend.position = "right",  # Coloca a legenda à direita
+    plot.title = element_text(size = 14, face = "bold", hjust = 0.5),  # Ajusta título
+    legend.title = element_text(size = 11.3, face = "bold"),  # Título da legenda
+    legend.text = element_text(size = 10),  # Tamanho da fonte da legenda
+    axis.title.x = element_text(size = 11, face = "bold"),  # Título do eixo x em negrito
+    axis.title.y = element_text(size = 10, face = "bold")   # Título do eixo y em negrito
+  ) +
+  scale_fill_manual(values = cores_ligas)+
+    ylim(40, 100)  # Define os limites do eixo y de 0 a 100
+p12
+
+ggsave("C:/Users/richa/Desktop/Doutorado/Disciplinas/2º semestre/Ferramentas Computacionais/Projeto_FCM_2024/Imagens/ligas_gk_pos.png", plot = p12, device = "png", height = 6, width = 10)
+
+# Gráfico de dispersão
+p13 <- ggplot(df3, aes(x = "", y = `GK Reflexes`, fill = League)) +
+  geom_boxplot(outlier.colour = "black", outlier.shape = 16, outlier.size = 1.5, width = 1.1) +  # Aumenta a largura dos boxplots
+  labs(title = "Distribuição dos Reflexos dos Goleiros por Liga",
+       x = "",  # Rótulo do eixo x
+       y = "Reflexos dos Goleiros (GK Reflexes)",  # Rótulo do eixo y
+       fill = "Ligas") +
+  theme_minimal() +  # Tema minimalista
+  theme(
+    legend.position = "right",  # Coloca a legenda à direita
+    plot.title = element_text(size = 14, face = "bold", hjust = 0.5),  # Ajusta título
+    legend.title = element_text(size = 11.3, face = "bold"),  # Título da legenda
+    legend.text = element_text(size = 10),  # Tamanho da fonte da legenda
+    axis.title.x = element_text(size = 11, face = "bold"),  # Título do eixo x em negrito
+    axis.title.y = element_text(size = 11.3, face = "bold")   # Título do eixo y em negrito
+  ) +
+  scale_fill_manual(values = cores_ligas)+
+    ylim(40, 100)  # Define os limites do eixo y de 0 a 100
+p13
+
+ggsave("C:/Users/richa/Desktop/Doutorado/Disciplinas/2º semestre/Ferramentas Computacionais/Projeto_FCM_2024/Imagens/ligas_gk_refl.png", plot = p13, device = "png", height = 6, width = 10)
