@@ -27,12 +27,13 @@ nova_coluna=c(6,1,5,3,2,10,7,11,4,8);
 df <- df %>%
   add_column(Rank_Ballon_dor = nova_coluna, .after = "Ranking_by_sex")
 
-#View(df)
-#write.csv(df, "C:/Users/richa/Desktop/Doutorado/Disciplinas/2º semestre/Ferramentas Computacionais/Projeto_FCM_2024/tabela1.csv", row.names = FALSE)
+##############################################################################################################################################################################################
 
 # Criando a tabela
 tabela <- gt(df)
 gtsave(tabela, "tabela.png")
+
+##############################################################################################################################################################################################
 
 league_counts <- df %>%
   group_by(League) %>%
@@ -51,6 +52,8 @@ cores_ligas <- c(
   "EFL Championship" = carto_pal(12, "Vivid")[12],  # Cor adicional
   "Primera División" = carto_pal(12, "Vivid")[10]  # Cor adicional
 )
+
+##############################################################################################################################################################################################
 
 # Gráfico de Pizza
 p1 <- ggplot(league_counts, aes(x = "", y = Count, fill = League)) +
@@ -96,6 +99,8 @@ p2 <- ggplot(league_counts_2, aes(x = "", y = Count, fill = League)) +
 p2
 
 ggsave("C:/Users/richa/Desktop/Doutorado/Disciplinas/2º semestre/Ferramentas Computacionais/Projeto_FCM_2024/ligas_ea.png", plot = p2, device = "png", height = 6, width = 10)
+
+##############################################################################################################################################################################################
 
 df2 <- dados %>%
   select(sex,Position,League,PAC,SHO,PAS,DRI,DEF,PHY)
@@ -239,6 +244,8 @@ p8
 
 ggsave("C:/Users/richa/Desktop/Doutorado/Disciplinas/2º semestre/Ferramentas Computacionais/Projeto_FCM_2024/Imagens/ligas_phy.png", plot = p8, device = "png", height = 6, width = 10)
 
+##############################################################################################################################################################################################
+
 df3 <- dados %>%
   select(sex,Name,Position,League,`GK Diving`, `GK Handling`,`GK Kicking`,`GK Positioning`,`GK Reflexes`)
 
@@ -355,3 +362,85 @@ p13 <- ggplot(df3, aes(x = "", y = `GK Reflexes`, fill = League)) +
 p13
 
 ggsave("C:/Users/richa/Desktop/Doutorado/Disciplinas/2º semestre/Ferramentas Computacionais/Projeto_FCM_2024/Imagens/ligas_gk_refl.png", plot = p13, device = "png", height = 6, width = 10)
+
+##############################################################################################################################################################################################
+df4 <- dados %>%
+  select(sex,League,Age,PAC,SHO,PAS,DRI,DEF,PHY)
+
+df4 <- filter(df4, sex == "MALE", League %in% c("Premier League","Serie A Enilive","Bundesliga",
+"LALIGA EA SPORTS","Ligue 1 McDonald's","Liga Portugal","1A Pro League",
+"MLS","EFL Championship","Primera División"))
+
+# Calcular a média de idade por liga
+df4 <- df4 %>%
+  select(League, Age) %>%       # Selecionar apenas as colunas necessárias
+  group_by(League) %>%          # Agrupar os dados por "League"
+  summarise(mean_age = mean(Age, na.rm = TRUE)) # Calcular a média de idade
+
+# Gráfico de barra
+p14 <- ggplot(df4, aes(x = League, y = mean_age, fill = League)) +
+  geom_col(width = 0.7) +  # Cria o gráfico de barras com as médias já calculadas
+  labs(
+    title = "Média da idade dos jogadores por Liga",
+    x = "",  # Sem rótulo no eixo x
+    y = "Média da idade dos jogadores",  # Rótulo do eixo y
+    fill = "Ligas"
+  ) +
+  theme_minimal() +  # Tema minimalista
+  theme(
+    legend.position = "right",  # Coloca a legenda à direita
+    plot.title = element_text(size = 16, face = "bold", hjust = 0.5),  # Ajusta título
+    legend.title = element_text(size = 11, face = "bold"),  # Título da legenda
+    legend.text = element_text(size = 10),  # Tamanho da fonte da legenda
+    axis.title.x = element_text(size = 11, face = "bold"),  # Título do eixo x em negrito
+    axis.title.y = element_text(size = 11.3, face = "bold"),  # Título do eixo y em negrito
+    axis.text.x = element_blank(),  # Remove os rótulos do eixo x
+    #axis.ticks.x = element_blank()  # Remove as marcas do eixo x
+  ) +
+  scale_fill_manual(values = cores_ligas)+
+    ylim(0, 30)  # Define os limites do eixo y de 0 a 100
+p14
+
+ggsave("C:/Users/richa/Desktop/Doutorado/Disciplinas/2º semestre/Ferramentas Computacionais/Projeto_FCM_2024/Imagens/media_idade.png", plot = p14, device = "png", height = 6, width = 10)
+
+##############################################################################################################################################################################################
+df5 <- dados %>%
+  select(sex,Position,League,Age,`Free Kick Accuracy`,PAC,SHO,PAS,DRI,DEF,PHY)
+
+df5 <- filter(df5, sex == "MALE", Position != "GK", League %in% c("Premier League","Serie A Enilive","Bundesliga",
+"LALIGA EA SPORTS","Ligue 1 McDonald's"))
+
+# Calcular a média de idade por liga
+df5 <- df5 %>%
+  select(League, Age,`Free Kick Accuracy`) %>%       # Selecionar apenas as colunas necessárias
+  group_by(League,Age) %>%          # Agrupar os dados por "League"
+  summarise(mean_age = mean(`Free Kick Accuracy`, na.rm = TRUE)) # Calcular a média de idade
+
+p15 <- ggplot(df5, aes(x = Age, y = mean_age, color = League, group = League)) +
+  geom_line(size = 1) +  # Cria as linhas para cada liga
+  geom_point(size = 2) +  # Adiciona pontos nos dados para melhor visualização
+  labs(
+    title = "Média de precisão em cobranças de faltas por idade em cada liga",
+    x = "Idade",  # Rótulo do eixo x
+    y = "Média de precisão em cobranças de faltas",  # Rótulo do eixo y
+    color = "Ligas"  # Legenda para as cores
+  ) +
+  theme_minimal() +
+  scale_x_continuous(
+    breaks = seq(15, 40, by = 1),  # Exibe todas as idades de 15 a 40
+    expand = c(0.000001, 1)  # Aumenta o espaçamento entre os valores do eixo
+  ) +
+  theme(
+    legend.position = "right",  # Coloca a legenda à direita
+    plot.title = element_text(size = 16, face = "bold", hjust = 0.5),  # Ajusta título
+    legend.title = element_text(size = 11, face = "bold"),  # Título da legenda
+    legend.text = element_text(size = 10),  # Tamanho da fonte da legenda
+    axis.title.x = element_text(size = 12, face = "bold"),  # Título do eixo x em negrito
+    axis.title.y = element_text(size = 12, face = "bold"),   # Título do eixo y em negrito
+    axis.text.x = element_text(size = 10,  angle = 45, hjust = 1,margin = margin(t = 10))  # Adiciona espaçamento nos rótulos do eixo X
+  ) +
+  scale_color_manual(values = cores_ligas)
+p15
+
+ggsave("C:/Users/richa/Desktop/Doutorado/Disciplinas/2º semestre/Ferramentas Computacionais/Projeto_FCM_2024/Imagens/media_accur_falta.png", plot = p15, device = "png", height = 6, width = 10)
+
