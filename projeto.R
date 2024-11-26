@@ -405,18 +405,18 @@ ggsave("C:/Users/richa/Desktop/Doutorado/Disciplinas/2º semestre/Ferramentas Co
 
 ##############################################################################################################################################################################################
 df5 <- dados %>%
-  select(sex,Position,League,Age,`Free Kick Accuracy`,PAC,SHO,PAS,DRI,DEF,PHY)
+  select(sex,Position,League,Age,Acceleration,`Sprint Speed`,`Finishing`,`Free Kick Accuracy`,PAC,SHO,PAS,DRI,DEF,PHY)
 
 df5 <- filter(df5, sex == "MALE", Position != "GK", League %in% c("Premier League","Serie A Enilive","Bundesliga",
 "LALIGA EA SPORTS","Ligue 1 McDonald's"))
 
-# Calcular a média de idade por liga
-df5 <- df5 %>%
+# Precisão em faltas
+df6 <- df5 %>%
   select(League, Age,`Free Kick Accuracy`) %>%       # Selecionar apenas as colunas necessárias
   group_by(League,Age) %>%          # Agrupar os dados por "League"
   summarise(mean_age = mean(`Free Kick Accuracy`, na.rm = TRUE)) # Calcular a média de idade
 
-p15 <- ggplot(df5, aes(x = Age, y = mean_age, color = League, group = League)) +
+p15 <- ggplot(df6, aes(x = Age, y = mean_age, color = League, group = League)) +
   geom_line(size = 1) +  # Cria as linhas para cada liga
   geom_point(size = 2) +  # Adiciona pontos nos dados para melhor visualização
   labs(
@@ -444,3 +444,104 @@ p15
 
 ggsave("C:/Users/richa/Desktop/Doutorado/Disciplinas/2º semestre/Ferramentas Computacionais/Projeto_FCM_2024/Imagens/media_accur_falta.png", plot = p15, device = "png", height = 6, width = 10)
 
+# Aceleração
+df7 <- df5 %>%
+  select(League, Age,`Acceleration`) %>%       # Selecionar apenas as colunas necessárias
+  group_by(League,Age) %>%          # Agrupar os dados por "League"
+  summarise(mean_age = mean(`Acceleration`, na.rm = TRUE)) # Calcular a média de idade
+
+p16 <- ggplot(df7, aes(x = Age, y = mean_age, color = League, group = League)) +
+  geom_line(size = 1) +  # Cria as linhas para cada liga
+  geom_point(size = 2) +  # Adiciona pontos nos dados para melhor visualização
+  labs(
+    title = "Média de aceleração por idade em cada liga",
+    x = "Idade",  # Rótulo do eixo x
+    y = "Média de aceleração",  # Rótulo do eixo y
+    color = "Ligas"  # Legenda para as cores
+  ) +
+  theme_minimal() +
+  scale_x_continuous(
+    breaks = seq(15, 40, by = 1),  # Exibe todas as idades de 15 a 40
+    expand = c(0.000001, 1)  # Aumenta o espaçamento entre os valores do eixo
+  ) +
+  theme(
+    legend.position = "right",  # Coloca a legenda à direita
+    plot.title = element_text(size = 16, face = "bold", hjust = 0.5),  # Ajusta título
+    legend.title = element_text(size = 11, face = "bold"),  # Título da legenda
+    legend.text = element_text(size = 10),  # Tamanho da fonte da legenda
+    axis.title.x = element_text(size = 12, face = "bold"),  # Título do eixo x em negrito
+    axis.title.y = element_text(size = 12, face = "bold"),   # Título do eixo y em negrito
+    axis.text.x = element_text(size = 10,  angle = 45, hjust = 1,margin = margin(t = 10))  # Adiciona espaçamento nos rótulos do eixo X
+  ) +
+  scale_color_manual(values = cores_ligas)
+p16
+
+ggsave("C:/Users/richa/Desktop/Doutorado/Disciplinas/2º semestre/Ferramentas Computacionais/Projeto_FCM_2024/Imagens/media_accele.png", plot = p16, device = "png", height = 6, width = 10)
+
+# Velocidade
+df8 <- df5 %>%
+  select(League, Age,`Sprint Speed`) %>%       # Selecionar apenas as colunas necessárias
+  group_by(League,Age) %>%          # Agrupar os dados por "League"
+  summarise(mean_age = mean(`Sprint Speed`, na.rm = TRUE)) # Calcular a média de idade
+
+p17 <- ggplot(df8, aes(x = Age, y = mean_age, color = League, group = League)) +
+  geom_line(size = 1) +  # Cria as linhas para cada liga
+  geom_point(size = 2) +  # Adiciona pontos nos dados para melhor visualização
+  labs(
+    title = "Média de velocidade em corrida por idade em cada liga",
+    x = "Idade",  # Rótulo do eixo x
+    y = "Média de velocidade em corrida",  # Rótulo do eixo y
+    color = "Ligas"  # Legenda para as cores
+  ) +
+  theme_minimal() +
+  scale_x_continuous(
+    breaks = seq(15, 40, by = 1),  # Exibe todas as idades de 15 a 40
+    expand = c(0.000001, 1)  # Aumenta o espaçamento entre os valores do eixo
+  ) +
+  theme(
+    legend.position = "right",  # Coloca a legenda à direita
+    plot.title = element_text(size = 16, face = "bold", hjust = 0.5),  # Ajusta título
+    legend.title = element_text(size = 11, face = "bold"),  # Título da legenda
+    legend.text = element_text(size = 10),  # Tamanho da fonte da legenda
+    axis.title.x = element_text(size = 12, face = "bold"),  # Título do eixo x em negrito
+    axis.title.y = element_text(size = 12, face = "bold"),   # Título do eixo y em negrito
+    axis.text.x = element_text(size = 10,  angle = 45, hjust = 1,margin = margin(t = 10))  # Adiciona espaçamento nos rótulos do eixo X
+  ) +
+  scale_color_manual(values = cores_ligas)
+p17
+
+ggsave("C:/Users/richa/Desktop/Doutorado/Disciplinas/2º semestre/Ferramentas Computacionais/Projeto_FCM_2024/Imagens/media_veloci.png", plot = p17, device = "png", height = 6, width = 10)
+
+# Finalização
+df9 <- df5 %>%
+  select(League, Age,Finishing) %>%       # Selecionar apenas as colunas necessárias
+  group_by(League,Age) %>%          # Agrupar os dados por "League"
+  summarise(mean_age = mean(Finishing, na.rm = TRUE)) # Calcular a média de idade
+
+p18 <- ggplot(df9, aes(x = Age, y = mean_age, color = League, group = League)) +
+  geom_line(size = 1) +  # Cria as linhas para cada liga
+  geom_point(size = 2) +  # Adiciona pontos nos dados para melhor visualização
+  labs(
+    title = "Média de finalização por idade em cada liga",
+    x = "Idade",  # Rótulo do eixo x
+    y = "Média de finalização",  # Rótulo do eixo y
+    color = "Ligas"  # Legenda para as cores
+  ) +
+  theme_minimal() +
+  scale_x_continuous(
+    breaks = seq(15, 40, by = 1),  # Exibe todas as idades de 15 a 40
+    expand = c(0.000001, 1)  # Aumenta o espaçamento entre os valores do eixo
+  ) +
+  theme(
+    legend.position = "right",  # Coloca a legenda à direita
+    plot.title = element_text(size = 16, face = "bold", hjust = 0.5),  # Ajusta título
+    legend.title = element_text(size = 11, face = "bold"),  # Título da legenda
+    legend.text = element_text(size = 10),  # Tamanho da fonte da legenda
+    axis.title.x = element_text(size = 12, face = "bold"),  # Título do eixo x em negrito
+    axis.title.y = element_text(size = 12, face = "bold"),   # Título do eixo y em negrito
+    axis.text.x = element_text(size = 10,  angle = 45, hjust = 1,margin = margin(t = 10))  # Adiciona espaçamento nos rótulos do eixo X
+  ) +
+  scale_color_manual(values = cores_ligas)
+p18
+
+ggsave("C:/Users/richa/Desktop/Doutorado/Disciplinas/2º semestre/Ferramentas Computacionais/Projeto_FCM_2024/Imagens/media_finish.png", plot = p18, device = "png", height = 6, width = 10)
