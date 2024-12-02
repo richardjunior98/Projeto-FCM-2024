@@ -2,16 +2,33 @@ library(tidyverse)
 
 dados <- read_csv("C:/Botucatu/UNESP/2024/2024_2/FCM/Projeto Final/Analises/female_players.csv")
 
-str(dados)
+# Inspecionar as primeiras linhas dos dados
 head(dados)
 
-dados_limpos <- dados %>%
-  filter(!is.na(Position), !is.na(League)) %>%
-  mutate(
-    posicao = as.factor(Position),
-    liga = as.factor(League)
-  )
+# Verificar as colunas
+colnames(dados)
 
+# Limpeza dos dados: Remover linhas com dados faltantes importantes
+dados_limpos <- dados %>%
+  filter(!is.na(League), !is.na(Name), !is.na(OVR))
+
+# Verificar as colunas disponíveis
+colnames(dados_limpos)
+
+# Selecionar as 10 ligas mais importantes (aqui, com base no número de jogadoras por liga)
+top_10_ligas <- dados_limpos %>%
+  group_by(League) %>%
+  tally() %>%
+  arrange(desc(n)) %>%
+  slice(1:10) %>%
+  pull(League)
+
+# Filtrando os dados para as 10 ligas mais importantes
+dados_filtrados <- dados_limpos %>%
+  filter(League %in% top_10_ligas)
+
+# Verificar as colunas disponíveis no conjunto de dados
+colnames(dados_filtrados)
 
 # Gráfico 1: Distribuição de jogadores por posição
 grafico1 <- ggplot(dados_limpos, aes(x = posicao)) +
