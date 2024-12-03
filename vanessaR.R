@@ -15,13 +15,18 @@ dados_limpos <- dados %>%
 # Verificar as colunas disponíveis
 colnames(dados_limpos)
 
-# Selecionar as 10 ligas mais importantes (aqui, com base no número de jogadoras por liga)
-top_10_ligas <- dados_limpos %>%
+# Selecionar as 5 ligas mais importantes (com base no número de jogadoras por liga)
+top_5_ligas <- dados_limpos %>%
   group_by(League) %>%
   tally() %>%
   arrange(desc(n)) %>%
-  slice(1:10) %>%
+  slice(1:5) %>%
   pull(League)
+
+# Filtrar os dados para as 5 ligas mais importantes
+dados_filtrados <- dados_limpos %>%
+  filter(League %in% top_5_ligas)
+
 
 # Filtrando os dados para as 10 ligas mais importantes
 dados_filtrados <- dados_limpos %>%
